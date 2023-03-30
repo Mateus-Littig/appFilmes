@@ -12,7 +12,7 @@ function ModalLink ({ link, title, closeModal }) {
     <>
       <BackButton onPress={closeModal}>
         <Feather name='x' size={35} color="#FFF" />
-        <Name>{title}</Name>
+        <Name numerOflines={1}>{title}</Name>
       </BackButton>
 
       <WebView
