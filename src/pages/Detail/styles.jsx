@@ -36,11 +36,24 @@ export const ButtonLink = styled.TouchableOpacity`
   border-radius: 35px;
   position: absolute;
   top: 350px;
+  right: 80px;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+`
+export const ButtonShare = styled.TouchableOpacity`
+  background-color: #E72F49;
+  width: 63px;
+  height: 63px;
+  border-radius: 35px;
+  position: absolute;
+  top: 350px;
   right: 15px;
   justify-content: center;
   align-items: center;
   z-index: 99;
 `
+
 export const Title = styled.Text`
   color: #FFF;
   font-size: 22px;

@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable quotes */
+/* eslint-disable multiline-ternary */
 /* eslint-disable no-const-assign */
 /* eslint-disable indent */
 /* eslint-disable react/jsx-no-undef */
@@ -12,10 +15,11 @@ import {
   ContentArea,
   Rate,
   ListGenres,
-  Description
+  Description,
+  ButtonShare
 } from './styles'
 
-import { ScrollView, Modal } from 'react-native'
+import { ScrollView, Modal, Share } from 'react-native'
 
 import { Feather, Ionicons } from '@expo/vector-icons'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -23,6 +27,7 @@ import api, { key } from '../../services/api'
 import Stars from 'react-native-stars'
 import Genres from '../../components/Genres'
 import ModalLink from '../../components/ModalLink'
+import { saveMovie, hasMovie, deleteMovie } from '../../utils/storage'
 
 function Detail () {
   const navigation = useNavigation()
@@ -30,6 +35,8 @@ function Detail () {
 
   const [movie, setMovie] = useState({})
   const [openLink, setOpenLink] = useState(false)
+  // const [openShare, setOpenShare] = useState(false)
+  const [favoritedMovie, setFavoritedMovie] = useState(false)
 
   useEffect(() => {
     const isActive = true
@@ -46,9 +53,12 @@ function Detail () {
       })
       if (isActive) {
         setMovie(response.data) // passa para useState o filme que ele recebeu
-        // console.log(response.data)
+
+        const isFavorite = await hasMovie(response.data)
+        setFavoritedMovie(isFavorite)
       }
     }
+
     if (isActive) {
       getMovie()
     }
@@ -56,6 +66,25 @@ function Detail () {
       isActive = false
     }
   }, [])
+
+  async function handleFavoriteMovie (movie) {
+    if (favoritedMovie) {
+      await deleteMovie(movie.id)
+      setFavoritedMovie(false)
+      alert('Filme removido da sua lista')
+    } else {
+      await saveMovie('@primevideo', movie)
+      setFavoritedMovie(true)
+      alert('Filme salvo na sua lista')
+    }
+  }
+
+  const onShare = async () => {
+    const result = await Share.share({
+        message: "Assista esse filme no meu App: "
+    })
+  }
+
   return (
     <Container>
       <Header>
@@ -67,12 +96,20 @@ function Detail () {
           />
         </HeaderButton>
 
-        <HeaderButton>
-          <Ionicons
+        <HeaderButton onPress={ () => handleFavoriteMovie(movie)}>
+          { favoritedMovie ? ( // Verifica se o filme já está salvo, renderizando o ícone vazio ou preenchido
+            <Ionicons
             name="bookmark"
             size={28}
             color='#FFF'
           />
+          ) : (
+            <Ionicons
+            name="bookmark-outline"
+            size={28}
+            color='#FFF'
+          />
+          )}
         </HeaderButton>
       </Header>
 
@@ -88,6 +125,14 @@ function Detail () {
           color="#FFF"
         />
       </ButtonLink>
+
+      <ButtonShare onPress= {onShare}>
+        <Feather
+          name="share"
+          size={24}
+          color="#FFF"
+        />
+      </ButtonShare>
 
       <Title numberOflines={2}>{movie.title}</Title>
       {/* numberOflines serve para deixar apenas uma linha no titulo */}
