@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.0.0",
     "@react-native-async-storage/async-storage": "1.17.11",
     "@react-navigation/drawer": "^6.6.2",
     "@react-navigation/native": "^6.1.6",
@@ -18,6 +19,7 @@
     "expo": "~48.0.9",
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
+    "react-hook-form": "^7.43.9",
     "react-native": "0.71.4",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-reanimated": "^2.14.4",
@@ -26,7 +28,8 @@
     "react-native-stars": "^1.2.2",
     "react-native-webview": "11.26.0",
     "styled-components": "^5.3.9",
-    "upgrade": "^1.1.0"
+    "upgrade": "^1.1.0",
+    "yup": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
